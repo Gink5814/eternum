@@ -1,0 +1,53 @@
+// Import the required libraries and modules
+use starknet::ContractAddress;
+
+// Define a new struct to represent cargo orders
+#[derive(Model, Copy, Drop, Serde)]
+struct Order {
+    #[key]
+    order_id: u128,
+    maker_id: u128,
+    taker_id: u128,
+    // Other fields related to the order
+}
+
+// Add a new external function to the existing contract for "on behalf of" operation
+#[external]
+fn on_behalf_of(
+    ref self: ContractState,
+    order_id: u128,
+    taker_caravan_id: u128,
+    taker_account: ContractAddress
+) {
+    // First, check if there's permission to execute the "on behalf of" operation
+    assert_only_master(@self);
+
+    // Get information about the order
+    let order = get_order_info(order_id);
+
+    // Check the order status and permissions to ensure the operation is valid
+    assert(order.taker_id == taker_account.id, 'Invalid taker account');
+    assert(order.maker_id != taker_account.id, 'Cannot act on behalf of yourself');
+    
+    // Get additional information about the order from the order struct
+    let maker_id = order.maker_id;
+    
+    // You can add other necessary logic here, such as updating the order status or recording the transaction
+
+    // Execute the "on behalf of" operation, e.g., sending cargo from A's caravan to B's address
+    execute_on_behalf_of_action(taker_caravan_id, taker_account.id);
+
+    // You can add other necessary logic here, such as updating the order status or recording the transaction
+}
+
+// Internal function to get order information
+fn get_order_info(order_id: u128) -> Order {
+    // Get order information from storage; the specific implementation depends on your contract's data structure
+    // This example does not provide the specific implementation
+}
+
+// Internal function to execute the "on behalf of" action
+fn execute_on_behalf_of_action(taker_caravan_id: u128, taker_account_id: u128) {
+    // You can add specific operation logic here, such as sending cargo from A's caravan to B's address
+    // Implement the "on behalf of" action based on your business logic
+}
