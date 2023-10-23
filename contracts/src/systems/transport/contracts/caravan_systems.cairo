@@ -132,7 +132,21 @@ mod caravan_systems {
                     }
                 )
             );
-            caravan_id
-        }
-    }
-}
+                // Add the new code to allow the Caravan to move when length is greater than 0
+                if length > 0 {
+                // Check if the caravan is ready to move (you can add additional conditions)
+                let isReadyToMove = /* Add your condition here */;
+
+                if isReadyToMove {
+                // Calculate the destination coordinates for the caravan's movement
+                let destinationCoord = /* Calculate the destination coordinates */;
+        
+                // Call a function or a contract to initiate the caravan's movement
+                // For example, if you have a moveCaravan function:
+                // moveCaravan(caravanId, destinationCoord);
+                } else {
+                // Handle the case where the caravan is not ready to move
+                // You can add additional logic or error handling here.
+                    }
+                }
+            }
